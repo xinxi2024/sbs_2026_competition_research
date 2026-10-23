@@ -17,6 +17,7 @@
   const regionItems=events.flatMap(event=>event.regionEntries.map(region=>{regionSerial++;return {id:`region-${String(regionSerial).padStart(3,'0')}`,event,region};}));
   const regionById=new Map(regionItems.map(item=>[item.id,item]));
   const catalogItems=[...events.map(event=>({id:event.id,event,region:null})),...regionItems];
+  const categoryCounts=catalogItems.reduce((counts,item)=>{const category=item.region?.category||item.event.category;counts[category]=(counts[category]||0)+1;return counts;},{});
   const catalog = document.getElementById('catalog-section');
   const detailView = document.getElementById('detail-view');
   const search = document.getElementById('search-input');
@@ -37,7 +38,7 @@
   const dateStamp=value=>new Date(`${value.slice(0,10)}T00:00:00`);
 
   document.getElementById('hero-stats').innerHTML = `
-    <div class="stat"><strong>${catalogItems.length}</strong><span>名单记录（147 + 38）</span></div>
+    <div class="stat"><strong>${catalogItems.length}</strong><span>名单记录（主表 147 + 右栏 38）</span></div>
     <div class="stat"><strong>${events.length}</strong><span>主表项目</span></div>
     <div class="stat"><strong>${events.filter(e=>e.fit==='high').length}</strong><span>优先适配方向</span></div>`;
   const pendingVerification=events.filter(e=>e.detail.status==='待逐项核验').length;
@@ -48,14 +49,15 @@
     button.addEventListener('click',()=>{chosenTag=chosenTag===tag?'':tag;drawChips();renderCards();});
     document.getElementById('tag-filters').appendChild(button);
   });
-  classes.forEach(value=>{const opt=document.createElement('option');opt.value=value;opt.textContent=value;classFilter.appendChild(opt);});
+  [{value:'B类',label:`B类全部等级 · ${categoryCounts['B类甲等']+categoryCounts['B类乙等']}项`},...classes.map(value=>({value,label:`${value} · ${categoryCounts[value]||0}项`}))].forEach(({value,label})=>{const opt=document.createElement('option');opt.value=value;opt.textContent=label;classFilter.appendChild(opt);});
   function drawChips(){document.querySelectorAll('.chip').forEach(el=>el.classList.toggle('active',el.dataset.tag===chosenTag));}
   function getFiltered(){
     const q=search.value.trim().toLowerCase();
     let list=catalogItems.filter(e=>{
       const title=e.region?.name||e.event.name;const category=e.region?.category||e.event.category;const event=e.event;
       const text=[title,category,event.name,...event.tags,event.detail.what,event.detail.deliver].join(' ').toLowerCase();
-      return (!q||text.includes(q))&&(!chosenTag||event.tags.includes(chosenTag))&&(!classFilter.value||category===classFilter.value)&&(!regionFilter.value||Boolean(e.region)||event.regionEntries.length>0);
+      const categoryMatches=!classFilter.value||(classFilter.value==='B类'?category.startsWith('B类'):category===classFilter.value);
+      return (!q||text.includes(q))&&(!chosenTag||event.tags.includes(chosenTag))&&categoryMatches&&(!regionFilter.value||Boolean(e.region)||event.regionEntries.length>0);
     });
     const rank={high:0,medium:1,low:2};
     const categoryOf=item=>item.region?.category||item.event.category;const nameOf=item=>item.region?.name||item.event.name;
@@ -66,7 +68,7 @@
   }
   function renderCards(){
     const list=getFiltered();resultCount.textContent=list.length;emptyState.hidden=!!list.length;cardsGrid.hidden=!list.length;
-    document.getElementById('active-filters').innerHTML=[chosenTag,classFilter.value,regionFilter.value?'有上海赛区条目':''].filter(Boolean).map(x=>`<span class="filter-pill">${esc(x)}</span>`).join('');
+    document.getElementById('active-filters').innerHTML=[chosenTag,classFilter.value==='B类'?'B类全部等级':classFilter.value,regionFilter.value?'有上海赛区条目':''].filter(Boolean).map(x=>`<span class="filter-pill">${esc(x)}</span>`).join('');
     cardsGrid.innerHTML=list.map(item=>{const e=item.event;const title=item.region?.name||e.name;const itemCategory=item.region?.category||e.category;const description=item.region?`名单右栏独立赛区条目，关联主项目「${e.name}」。赛区要求与赛程待该赛项官方通知核实。`:e.detail.what;return `<article class="event-card ${item.region?'region-event-card':''}" tabindex="0" role="link" aria-label="查看${esc(title)}详情" data-id="${item.id}">
       <div class="card-top"><span class="category-badge">${niceCategory(itemCategory)}</span><span class="fit-badge ${e.fit==='high'?'high':''}">${fitText(e.fit)}</span></div>
       <h3 class="card-title">${esc(title)}</h3><p class="card-summary">${esc(description)}</p>
