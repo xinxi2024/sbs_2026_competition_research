@@ -5,7 +5,8 @@
 - Keep this project as a local-first static website built with HTML, CSS, and plain JavaScript. Do not add a backend, account system, or remote data service unless the user asks for it.
 - Keep the three user-facing pages separate: `index.html` for the competition library, `calendar.html` for schedule search, and `about.html` for evaluation methods. Keep navigation links consistent across all three pages.
 - Keep competition details addressable with stable `#event-...` links from the library page.
-- Preserve the source list structure: 147 main competitions and their 38 Shanghai-region entries. Do not silently remove, rename, or merge source entries.
+- Preserve the source list structure: 147 main-table entries and 38 right-column entries. Make all 185 entries independently searchable and filterable by their own name and source category; keep a visible association between a right-column entry and its related main entry. Do not silently remove, rename, or collapse source entries into hidden detail-only metadata.
+- When a right-column entry's exact rules have not been verified, distinguish its confirmed name/category from inherited main-entry context and label the latter as reference only.
 
 ## Research and estimates
 
