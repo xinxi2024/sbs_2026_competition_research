@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f5f1">
+  <meta name="description" content="按月份、类型、竞赛方向与个人适配度筛选上海商学院学科竞赛日程"><title>最近报名与赛程 · 上商竞赛雷达</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="site-shell">
+  <header class="topbar"><a class="brand" href="index.html" aria-label="回到竞赛列表"><span class="brand-mark"><i></i><i></i><i></i></span><span><b>上商竞赛雷达</b><small>2026 · FIELD GUIDE</small></span></a><nav class="top-nav" aria-label="主导航"><a href="index.html#catalog-start">竞赛库</a><a href="calendar.html" class="nav-current">最近赛程</a><a href="about.html">评估口径</a><span class="local-badge"><span></span> 本地静态版</span></nav></header>
+  <main class="calendar-page">
+    <section class="calendar-page-hero"><div><div class="eyebrow"><span class="eyebrow-line"></span> WHEN TO JOIN / 赛程总览</div><h1>把握下一场比赛的<br><em>报名与准备窗口。</em></h1><p id="calendar-date-note">正在根据当前日期整理时间线…</p></div><div class="calendar-page-stats" id="calendar-page-stats"></div></section>
+    <section class="calendar-section calendar-page-section" aria-label="赛程筛选"><div class="calendar-heading"><div><div class="eyebrow muted"><span class="eyebrow-line"></span> FILTER THE CALENDAR</div><h2>组合筛选赛程</h2><p>按时间、赛事类型、方向和个人适配度缩小范围。</p></div><div class="calendar-mark"><span class="calendar-pulse"></span><span>LIVE CALENDAR</span></div></div>
+      <div class="calendar-filter-grid">
+        <label><span>时间范围</span><select id="calendar-range"><option value="next30">未来 30 天 / 最近节点</option><option value="all">全部未来日程</option></select></label>
+        <label><span>按月份看</span><select id="calendar-month"><option value="">不限制月份</option></select></label>
+        <label><span>日程类型</span><select id="calendar-kind"><option value="">全部类型</option><option value="报名">报名</option><option value="提交">作品提交</option><option value="比赛">比赛 / 晋级</option><option value="预估">年度预估</option></select></label>
+        <label><span>竞赛方向</span><select id="calendar-direction"><option value="">全部方向</option></select></label>
+        <label><span>个人适配度</span><select id="calendar-fit"><option value="">全部适配度</option><option value="high">高度适配</option><option value="medium">可迁移</option><option value="low">探索型</option></select></label>
+        <label><span>校内奖励分类</span><select id="calendar-class"><option value="">全部分类</option><option>A类甲等</option><option>B类甲等</option><option>A类乙等</option><option>B类乙等</option><option>丙等</option></select></label>
+      </div>
+      <div class="calendar-search-row"><label class="search-box" for="calendar-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"></circle><path d="m16 16 4.1 4.1"></path></svg><input id="calendar-search" type="search" autocomplete="off" placeholder="搜索竞赛名称、标签或赛程内容…"></label><button class="text-button" id="calendar-reset" type="button">重置筛选</button></div>
+      <div class="calendar-summary" id="calendar-summary"></div><div class="calendar-grid" id="calendar-grid"></div><div class="calendar-empty" id="calendar-empty" hidden>没有符合条件的赛程。可以扩大时间范围或重置部分筛选。</div>
+      <p class="schedule-disclaimer">日期按本机时间计算。已发布节点来自公开通知；年度窗口是根据历届规律推算的备赛提醒，并非新届官方安排。具体报名入口、赛制、地点和截止时刻以赛事及学校通知为准。</p>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer-brand"><span class="brand-mark small"><i></i><i></i><i></i></span><span>上商竞赛雷达</span></div><p>资料来自 2026 年上海商学院竞赛名单及公开赛事信息。赛程、组别和举办地点均以当届官方文件为准。</p><span class="footer-date">LOCAL / CALENDAR</span></footer>
+</div><script src="competitions-data.js"></script><script src="calendar-data.js"></script><script src="calendar-engine.js"></script><script src="calendar.js"></script></body></html>

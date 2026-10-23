@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f5f1">
+  <meta name="description" content="上海商学院2026学科竞赛调研与个人适配评估"><title>上商竞赛雷达 · 2026 学科竞赛库</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="site-shell">
+  <header class="topbar"><a class="brand" href="index.html" aria-label="回到竞赛列表"><span class="brand-mark"><i></i><i></i><i></i></span><span><b>上商竞赛雷达</b><small>2026 · FIELD GUIDE</small></span></a><nav class="top-nav" aria-label="主导航"><a href="index.html#catalog-start" class="nav-current">竞赛库</a><a href="calendar.html">最近赛程</a><a href="about.html">评估口径</a><span class="local-badge"><span></span> 本地静态版</span></nav></header>
+  <main id="app">
+    <section class="hero" id="catalog-start"><div class="hero-copy"><div class="eyebrow"><span class="eyebrow-line"></span> 上海商业 · 技术 · 创新</div><h1>把下一场竞赛，<br><em>选得更有把握。</em></h1><p>从 147 项校内竞赛名单里，找出适合你的方向。看赛什么、怎么准备、时间参考和个人成长空间。</p><div class="hero-stats" id="hero-stats"></div></div>
+      <div class="hero-graphic" aria-hidden="true"><div class="radar-ring ring-one"></div><div class="radar-ring ring-two"></div><div class="radar-ring ring-three"></div><div class="radar-cross cross-h"></div><div class="radar-cross cross-v"></div><div class="radar-sweep"></div><span class="radar-dot dot-a"></span><span class="radar-dot dot-b"></span><span class="radar-dot dot-c"></span><div class="radar-center"><span>竞</span><small>RADAR</small></div><div class="graphic-label label-a">01 / 适配度</div><div class="graphic-label label-b">02 / 成长值</div><div class="graphic-label label-c">03 / 赛程线索</div></div>
+    </section>
+    <section class="search-panel" aria-label="搜索和筛选竞赛"><div class="search-row"><label class="search-box" for="search-input"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.7"></circle><path d="m16 16 4.1 4.1"></path></svg><input id="search-input" type="search" autocomplete="off" placeholder="搜比赛名称、技能方向、提交作品…"><kbd>⌘ K</kbd></label><label class="sort-box"><span>排序</span><select id="sort-select"><option value="fit">优先看适配</option><option value="class">按校内分类</option><option value="name">按名称</option></select></label></div>
+      <div class="filter-row"><div class="filter-label">方向</div><div class="chips" id="tag-filters"></div><span class="filter-divider"></span><label class="select-filter"><span>校内分类</span><select id="class-filter"><option value="">全部</option></select></label><label class="select-filter"><span>赛区信息</span><select id="region-filter"><option value="">全部项目</option><option value="has-region">有上海赛区条目</option></select></label></div>
+    </section>
+    <section class="catalog-section" id="catalog-section"><div class="coverage-note" id="coverage-note" role="note"></div><div class="section-heading"><div><div class="eyebrow muted"><span class="eyebrow-line"></span> EXPLORE THE FIELD</div><h2>竞赛项目库</h2></div><div class="result-count"><strong id="result-count">147</strong><span>项可浏览</span></div></div>
+      <div class="active-filter-line"><div id="active-filters"></div><button id="clear-filters" class="text-button" type="button">清除筛选</button></div><div class="cards-grid" id="cards-grid"></div>
+      <div class="empty-state" id="empty-state" hidden><span class="empty-icon">⌕</span><h3>没有找到匹配项目</h3><p>试试缩短关键词，或清除部分筛选条件。</p><button class="button button-dark" id="empty-clear" type="button">重置条件</button></div>
+    </section>
+  </main><main id="detail-view" hidden></main>
+  <footer class="footer"><div class="footer-brand"><span class="brand-mark small"><i></i><i></i><i></i></span><span>上商竞赛雷达</span></div><p>资料来自 2026 年上海商学院竞赛名单及公开赛事信息。赛程、组别、奖金和申报资格均以当届官方文件及学校审核为准。</p><span class="footer-date">LOCAL / 2026</span></footer>
+</div><script src="competitions-data.js"></script><script src="calendar-data.js"></script><script src="calendar-engine.js"></script><script src="app.js"></script></body></html>
