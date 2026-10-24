@@ -22,9 +22,86 @@
 @media(max-width:700px){.calendar-page{padding:22px 0 48px}.calendar-page-hero{grid-template-columns:1fr;gap:17px;padding:12px 0 22px}.calendar-page-hero h1{font-size:36px;margin:15px 0 9px}.calendar-page-stats{display:grid;grid-template-columns:repeat(3,1fr)}.calendar-page-stats div{min-width:0;padding:9px}.calendar-page-stats strong{font-size:16px}.calendar-page-stats span{font-size:8px}.calendar-page-section{margin-top:18px}.calendar-filter-grid{grid-template-columns:1fr 1fr;gap:8px;padding:10px}.calendar-filter-grid label:first-child,.calendar-filter-grid label:nth-child(2){grid-column:span 2}.calendar-filter-grid select{padding:9px 23px 9px 8px;font-size:9px}.calendar-search-row{gap:5px}.calendar-search-row .search-box{padding:0 9px}.calendar-search-row .search-box input{font-size:10px}.calendar-search-row .text-button{padding:8px 3px;font-size:9px}.calendar-card-tags span{font-size:8px}}
 .radar-center span{font:700 25px "Noto Sans SC",sans-serif;letter-spacing:0}
 @media(max-width:700px){.top-nav>a[href="calendar.html"]{display:block;font-size:9px}.top-nav{gap:9px}.local-badge{font-size:9px}}
+
+/* Readability pass: enlarge secondary copy and strengthen text contrast. */
+.hero-copy>p,.calendar-page-hero p{color:#45554b;font-size:15px;line-height:1.9}
+.stat span,.coverage-note small,.catalog-count-note{color:#56665c;font-size:12px;line-height:1.65}
+.search-box input{font-size:15px}.search-box input::placeholder{color:#65736a}
+.sort-box,.filter-label,.select-filter span{color:#536359;font-size:12px}
+.sort-box select,.select-filter select{font-size:13px}
+.chip{color:#425349;font-size:12px}.filter-pill,.text-button{font-size:12px}
+.fit-badge{color:#536359;font-size:11px}.category-badge{font-size:11px}
+.card-title{font-size:17px;line-height:1.55}.card-summary{color:#405047;font-size:14px;line-height:1.8}
+.mini-tag{color:#43544a;font-size:11px}.card-foot{color:#536359;font-size:11px}
+.detail-hero p{color:#eff7f1;font-size:16px;line-height:1.9}
+.detail-kicker,.detail-badge{font-size:11px}
+.detail-card h2{font-size:17px}.detail-card h2 span{font-size:12px}
+.info-cell label{color:#4f6257;font-size:12px;font-weight:700;letter-spacing:.035em}
+.info-cell p,.detail-card p.body-copy{color:#35463b;font-size:14px;line-height:1.9}
+.match-title,.match-label,.meter-row{color:#43564a;font-size:12px}
+.meter-row strong{font-size:12px}.forecast-card .forecast-kicker,.forecast-box span,.forecast-card p,.confidence{font-size:12px}
+.award-note,.award-footnote,.conduct-strip,.data-warning{font-size:13px;line-height:1.8}
+.award-table{font-size:12px}.award-table .money{font-size:12px}
+.source-link{color:#365f46;font-size:12px}.source-link small{color:#56675d;font-size:11px}
+.detail-tags{color:#42564a;font-size:11px}
+.back-link{font-size:13px}
+.fit-assessment-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:13px}
+.fit-assessment-grid article{padding:15px;background:#f4f7f1;border:1px solid #e1e8de;border-radius:8px}
+.fit-assessment-grid article strong{display:block;color:#245b40;font-size:14px}
+.fit-assessment-grid article p{margin:8px 0 0;color:#35463b;font-size:13px;line-height:1.8}
+.assessment-note{margin-top:12px;padding:13px 15px;background:#f8f4e9;border-radius:7px;color:#554a34;font-size:13px;line-height:1.8}
+.assessment-note strong{color:#3e3626}
+.calendar-page-hero p,.calendar-page-stats span{color:#4e5e54}
+.calendar-filter-grid label,.calendar-tools label{color:#4a5b50;font-size:12px}
+.calendar-filter-grid select,.calendar-tools select{font-size:13px}
+.calendar-summary,.calendar-card-meta{color:#4d5d53;font-size:12px}
+.calendar-summary small,.calendar-card-meta small{color:#58685e;font-size:11px}
+.calendar-card h3{font-size:15px}.calendar-event-name{color:#3f5046;font-size:12px}
+.calendar-note{color:#3f5046;font-size:13px;line-height:1.8}
+.calendar-kind,.calendar-state,.calendar-detail-link,.calendar-source-link{font-size:11px}
+.calendar-source-link{color:#4b6253}
+.schedule-detail-date strong{font-size:13px}.schedule-detail-date span{color:#635a43;font-size:11px}
+.schedule-detail-row h3{font-size:14px}.schedule-detail-row p,.schedule-detail-row small{color:#405047;font-size:13px;line-height:1.8}
+.schedule-detail-row a,.schedule-disclaimer{color:#4b6253;font-size:12px;line-height:1.75}
+.about-page-hero p,.about-method-card p,.about-method-card li,.method-levels span,.about-source-copy p{color:#3f5046;font-size:14px;line-height:1.85}
+.about-index{color:#526357;font-size:12px}.method-levels b{font-size:14px}
+@media(max-width:700px){
+  .hero-copy>p,.calendar-page-hero p{font-size:14px}
+  .card-summary{font-size:14px}.card-title{font-size:16px}
+  .detail-hero p{font-size:15px}.detail-card h2{font-size:16px}
+  .info-grid{grid-template-columns:1fr}.info-cell{min-height:0}.info-cell p,.detail-card p.body-copy{font-size:14px}
+  .fit-assessment-grid{grid-template-columns:1fr}.fit-assessment-grid article{padding:13px}
+  .fit-assessment-grid article p,.assessment-note{font-size:13px}
+  .award-table th,.award-table td{font-size:11px}.award-table .money{font-size:11px}
+  .calendar-event-name,.calendar-note,.schedule-detail-row p,.schedule-detail-row small{font-size:13px}
+  .about-page-hero p,.about-method-card p,.about-method-card li,.method-levels span,.about-source-copy p{font-size:14px}
+}
 .about-page{padding:37px 0 70px}.about-page-hero{padding:20px 3px 31px;border-bottom:1px solid var(--line)}.about-page-hero h1{margin:20px 0 13px;font-size:clamp(37px,5vw,58px);line-height:1.18;letter-spacing:-.05em}.about-page-hero h1 em{color:var(--green);font-style:normal}.about-page-hero p{max-width:690px;margin:0;color:#758078;font-size:12px;line-height:1.9}.about-method-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:23px}.about-method-card{padding:23px 25px;background:white;border:1px solid #e4e9e2;border-radius:12px}.about-method-card .about-index{font:9px "DM Mono",monospace;letter-spacing:.1em}.about-method-card h2{margin:11px 0 10px;font-size:17px}.about-method-card>p,.about-source-copy p{margin:0;color:#69766e;font-size:11px;line-height:1.9}.method-levels{display:grid;gap:8px;margin-top:15px}.method-levels div{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:10px 11px;border-radius:7px;background:#f6f8f4}.method-levels b{color:var(--green);font-size:10px}.method-levels span{color:#758078;font-size:10px;line-height:1.7}.about-method-card ul{display:grid;gap:8px;margin:14px 0;padding-left:19px;color:#69766e;font-size:10px;line-height:1.7}.about-callout{margin-top:14px;padding:11px 12px;border-left:2px solid #d8a067;border-radius:0 6px 6px 0;background:#fbf6ee;color:#806b4c;font-size:10px;line-height:1.8}.about-source-panel{display:grid;grid-template-columns:.8fr 1.2fr;gap:35px;margin-top:23px;padding:25px;background:#edf2eb;border-radius:12px}.about-source-panel h2{margin:9px 0 0;font-size:20px}.about-source-copy{display:grid;gap:11px}.about-source-copy a{color:var(--green);font-size:10px;font-weight:700}
 @media(max-width:900px){.about-source-panel{grid-template-columns:1fr;gap:15px}}
 @media(max-width:700px){.about-page{padding:24px 0 48px}.about-page-hero{padding:12px 0 22px}.about-page-hero h1{font-size:37px;margin:15px 0 10px}.about-page-hero p{font-size:10px}.about-method-grid{grid-template-columns:1fr;gap:9px;margin-top:15px}.about-method-card{padding:18px}.about-method-card h2{font-size:15px}.about-method-card>p,.about-source-copy p{font-size:10px}.method-levels div{grid-template-columns:80px 1fr;gap:7px}.about-source-panel{margin-top:15px;padding:18px}.about-source-panel h2{font-size:17px}}
 @media(max-width:700px){.top-nav>a[href="about.html"]{display:block;font-size:9px}.local-badge{display:none}}
 .catalog-count-note{margin:7px 0 0;color:#8b968f;font-size:10px}.region-event-card{border-color:#e8e1ce;background:linear-gradient(145deg,#fff,#fcfaf4)}.region-event-card .category-badge{background:#f2efdf;color:#81713d}
 @media(max-width:700px){.catalog-count-note{font-size:9px}.result-count{align-items:flex-end;flex-direction:column;gap:2px}.result-count strong{font-size:21px}}
+
+/* Final readability overrides: keep descriptive copy legible on every page. */
+.hero-copy>p,.calendar-page-hero p,.about-page-hero p{color:#3f5046;font-size:15px;line-height:1.9}
+.stat span,.coverage-note small,.catalog-count-note,.about-index{color:#4d5d53;font-size:12px;line-height:1.7}
+.card-summary,.info-cell p,.detail-card p.body-copy,.schedule-detail-row p,.schedule-detail-row small,.calendar-note,.about-method-card>p,.about-method-card li,.about-source-copy p{color:#35463b;font-size:14px;line-height:1.9}
+.info-cell label,.detail-kicker,.detail-badge,.match-title,.match-label,.source-link small,.detail-tags,.calendar-kind,.calendar-state,.calendar-detail-link,.calendar-source-link{font-size:12px}
+.detail-card h2{font-size:18px}.schedule-detail-row h3,.calendar-card h3{font-size:15px}
+.award-note,.award-footnote,.conduct-strip,.data-warning,.assessment-note{font-size:14px;line-height:1.85}
+.fit-assessment-grid article strong{font-size:15px}.fit-assessment-grid article p{font-size:14px;line-height:1.85}
+.about-method-card>p,.about-source-copy p,.method-levels span{font-size:14px;line-height:1.85}
+.about-method-card ul{color:#35463b;font-size:13px;line-height:1.8}
+.method-levels b{font-size:13px}.about-callout{font-size:13px;line-height:1.8}.about-source-copy a{font-size:13px}
+.schedule-detail-date strong,.schedule-detail-date span,.schedule-detail-row a,.schedule-disclaimer{font-size:13px;line-height:1.8}
+@media(max-width:700px){
+  .hero-copy>p,.calendar-page-hero p,.about-page-hero p{font-size:14px}
+  .stat span,.coverage-note small,.catalog-count-note,.about-index{font-size:12px}
+  .card-summary,.info-cell p,.detail-card p.body-copy,.schedule-detail-row p,.schedule-detail-row small,.calendar-note,.about-method-card>p,.about-method-card li,.about-source-copy p{font-size:13px;line-height:1.8}
+  .info-grid{grid-template-columns:1fr}.info-cell{min-height:0}.detail-card h2{font-size:16px}
+  .award-note,.award-footnote,.conduct-strip,.data-warning,.assessment-note,.fit-assessment-grid article p{font-size:13px;line-height:1.8}
+  .fit-assessment-grid{grid-template-columns:1fr}.fit-assessment-grid article{padding:14px}
+  .about-method-card ul{font-size:13px}.method-levels span{font-size:13px}.about-callout{font-size:13px}
+  .schedule-detail-date strong,.schedule-detail-date span,.schedule-detail-row a,.schedule-disclaimer{font-size:12px}
+}

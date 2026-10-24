@@ -1036,7 +1036,12 @@ window.COMPETITIONS = [
     "id": "event-023",
     "name": "全国大学生生命科学竞赛(CULSC)",
     "category": "A类乙等",
-    "regionEntries": [],
+    "regionEntries": [
+      {
+        "name": "上海市大学生生命科学竞赛",
+        "category": "B类乙等"
+      }
+    ],
     "tags": [
       "综合素养"
     ],
@@ -1479,6 +1484,8 @@ window.COMPETITIONS = [
   {
     "id": "event-033",
     "name": "全国大学生计算机系统能力大赛",
+    "sourceName": "全国大学生计算机系统统能力大赛",
+    "aliases": ["全国大学生计算机系统统能力大赛"],
     "category": "A类乙等",
     "regionEntries": [
       {
@@ -3605,12 +3612,7 @@ window.COMPETITIONS = [
     "id": "event-085",
     "name": "上海市大学生原创文学大赛",
     "category": "B类乙等",
-    "regionEntries": [
-      {
-        "name": "上海市大学生生命科学竞赛",
-        "category": "B类乙等"
-      }
-    ],
+    "regionEntries": [],
     "tags": [
       "语言与写作"
     ],

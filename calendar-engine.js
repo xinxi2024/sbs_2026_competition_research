@@ -11,12 +11,16 @@
     const makeDate = (year, month, day) => `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     const annual = patterns.map(pattern => {
       let year = Math.max(yearNow, pattern.firstYear || yearNow);
-      while (makeDate(year, pattern.toMonth, pattern.toDay) < today) year++;
+      const toYearOffset = pattern.toYearOffset || 0;
+      const cycleYears = Math.max(1, pattern.cycleYears || 1);
+      while (makeDate(year + toYearOffset, pattern.toMonth, pattern.toDay) < today) year += cycleYears;
       const from = makeDate(year, pattern.fromMonth, pattern.fromDay);
-      const to = makeDate(year, pattern.toMonth, pattern.toDay);
-      const dateLabel = pattern.fromMonth === pattern.toMonth
+      const to = makeDate(year + toYearOffset, pattern.toMonth, pattern.toDay);
+      const dateLabel = pattern.fromMonth === pattern.toMonth && !toYearOffset
         ? `${year}年${pattern.fromMonth}月关注窗口（动态预估）`
-        : `${year}年${pattern.fromMonth}–${pattern.toMonth}月关注窗口（动态预估）`;
+        : toYearOffset
+          ? `${year}年${pattern.fromMonth}月–${year + toYearOffset}年${pattern.toMonth}月关注窗口（动态预估）`
+          : `${year}年${pattern.fromMonth}–${pattern.toMonth}月关注窗口（动态预估）`;
       return {...pattern, from, to, dateLabel, note:`${pattern.note} 本次打开日期为${today}，已滚动推算至最近的年度窗口。`};
     });
     return [...raw.filter(item => !item.annualPatternId), ...annual];

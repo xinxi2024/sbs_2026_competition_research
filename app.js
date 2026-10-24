@@ -18,6 +18,11 @@
   const regionById=new Map(regionItems.map(item=>[item.id,item]));
   const catalogItems=[...events.map(event=>({id:event.id,event,region:null})),...regionItems];
   const categoryCounts=catalogItems.reduce((counts,item)=>{const category=item.region?.category||item.event.category;counts[category]=(counts[category]||0)+1;return counts;},{});
+  const sourceCategoryCounts={
+    main:events.reduce((counts,event)=>(counts[event.category]=(counts[event.category]||0)+1,counts),{}),
+    region:regionItems.reduce((counts,item)=>(counts[item.region.category]=(counts[item.region.category]||0)+1,counts),{})
+  };
+  const categoryLabel=category=>`${category} · ${categoryCounts[category]||0}项（主表${sourceCategoryCounts.main[category]||0} + 右栏${sourceCategoryCounts.region[category]||0}）`;
   const catalog = document.getElementById('catalog-section');
   const detailView = document.getElementById('detail-view');
   const search = document.getElementById('search-input');
@@ -49,13 +54,13 @@
     button.addEventListener('click',()=>{chosenTag=chosenTag===tag?'':tag;drawChips();renderCards();});
     document.getElementById('tag-filters').appendChild(button);
   });
-  [{value:'B类',label:`B类全部等级 · ${categoryCounts['B类甲等']+categoryCounts['B类乙等']}项`},...classes.map(value=>({value,label:`${value} · ${categoryCounts[value]||0}项`}))].forEach(({value,label})=>{const opt=document.createElement('option');opt.value=value;opt.textContent=label;classFilter.appendChild(opt);});
+  [{value:'B类',label:`B类全部等级 · ${categoryCounts['B类甲等']+categoryCounts['B类乙等']}项（主表${(sourceCategoryCounts.main['B类甲等']||0)+(sourceCategoryCounts.main['B类乙等']||0)} + 右栏${(sourceCategoryCounts.region['B类甲等']||0)+(sourceCategoryCounts.region['B类乙等']||0)}）`},...classes.map(value=>({value,label:categoryLabel(value)}))].forEach(({value,label})=>{const opt=document.createElement('option');opt.value=value;opt.textContent=label;classFilter.appendChild(opt);});
   function drawChips(){document.querySelectorAll('.chip').forEach(el=>el.classList.toggle('active',el.dataset.tag===chosenTag));}
   function getFiltered(){
     const q=search.value.trim().toLowerCase();
     let list=catalogItems.filter(e=>{
       const title=e.region?.name||e.event.name;const category=e.region?.category||e.event.category;const event=e.event;
-      const text=[title,category,event.name,...event.tags,event.detail.what,event.detail.deliver].join(' ').toLowerCase();
+      const text=[title,category,event.name,...(event.aliases||[]),...event.tags,event.detail.what,event.detail.deliver].join(' ').toLowerCase();
       const categoryMatches=!classFilter.value||(classFilter.value==='B类'?category.startsWith('B类'):category===classFilter.value);
       return (!q||text.includes(q))&&(!chosenTag||event.tags.includes(chosenTag))&&categoryMatches&&(!regionFilter.value||Boolean(e.region)||event.regionEntries.length>0);
     });
@@ -98,8 +103,56 @@
   }
   function scheduleDetail(event,regionEntry){const items=calendarFor(event.id).sort((a,b)=>a.from.localeCompare(b.from));return `<section class="detail-card schedule-detail-card"><div class="schedule-detail-heading"><div><div class="forecast-kicker">TIMELINE / 官方节点与窗口参考</div><h2><span>02</span>${regionEntry?'赛区赛程核对与主项目参考':'报名、提交与比赛时间'}</h2></div><span class="calendar-mark">${items.length} 条时间线</span></div>${regionEntry?`<div class="data-warning">下列时间线来自关联主项目“${esc(event.name)}”，只作方向参考。该右栏赛区条目的报名、举办日期和地点尚需对应赛区通知核实。</div>`:''}${items.length?`<div class="schedule-detail-list">${items.map(item=>`<article class="schedule-detail-row ${item.type==='预估'?'estimate-row':''}"><div class="schedule-detail-date"><strong>${esc(item.dateLabel)}</strong><span>${esc(item.type)} · ${esc(item.certainty)}</span></div><div><h3>${esc(item.title)}</h3><p>${esc(item.note)}</p><small>地点/形式：${esc(item.place)}</small><a href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">${esc(item.source)} ↗</a>${item.registrationUrl?`<a class="timeline-registration" href="${esc(item.registrationUrl)}" target="_blank" rel="noopener noreferrer">${esc(item.registrationLabel||'报名/赛事官网')} ↗</a>`:''}</div></article>`).join('')}</div>`:`<div class="data-warning">暂未找到可引用的本届报名日期或近届日程。报名方式、赛期与举办地点请先查看下方赛事官方来源，并关注学校教务处/指导教师通知；本页面不按赛事名称猜测月份。</div>`}<p class="schedule-disclaimer">“预估/参考”条目依据已公开往届规律推算，仅用于提前关注与备赛，具体时间地点以赛事当届通知为准。</p></section>`;}
   function progress(label,value){return `<div class="meter-row"><span>${label}</span><div class="meter-track"><i style="width:${value*20}%"></i></div><strong>${value}/5</strong></div>`;}
+  function personalAssessment(event){
+    const text=`${event.name} ${event.tags.join(' ')}`.toLowerCase();
+    const profile={
+      base:'你已有 Python 数据处理、独立开发并部署线上应用的经验；物联网工程课程在起步阶段，C 语言和嵌入式仍是正在补的基础。',
+      gap:'目前没有该赛道的往届作品、校内选拔名次或同类比赛成绩可用于判断；以下是根据赛事方向与已知技能给出的备赛建议。',
+      action:'先找一份最近届官方题目或作品要求，做出一个可展示的最小样例，再决定是否投入完整赛季。'
+    };
+    if(/英语|外语|翻译|日语|韩语|词汇|辩论|演讲|商务英语/.test(text)){
+      profile.base='你有英语学习基础，英语曾是三校生高考科目；你也把英语提升列为当前目标。技术项目文档与结构化表达可以迁移到备赛。';
+      profile.gap='没有已知的英语演讲、翻译或限时写作竞赛成绩；口语流畅度、语言准确度和赛项专用格式仍需实测。';
+      profile.action='先按该赛项最近届样题完成一次限时任务：演讲录一段 3 分钟视频，写作/翻译完成一份限时稿，之后按官方评分项逐条复盘。';
+    }else if(/市场调查|统计建模|数学建模|能源经济|数据分析|大数据|统计/.test(text)){
+      profile.base='你的数学基础较强，能用 Python 做数据处理，也做过大数据可视化项目；这些经验能用于清洗数据、复现分析和制作图表。';
+      profile.gap='竞赛更看重问题定义、抽样/数据来源、统计方法选择和报告论证；会写代码不等于调查设计或模型解释已经达标。';
+      profile.action='用最近届题目完成一份 2–3 页小报告：明确研究问题、数据来源、方法、图表和局限；市调类先做一份问卷并试访 5 人。';
+    }else if(/物联网|嵌入式|芯片|电子|机器人|智能汽车|智能制造|硬件|通信|光电|机电|工程实践/.test(text)){
+      profile.base='你是物联网工程专业，有电子与信息方向实作经历，也能用 Python 做原型和数据处理；这为传感器、控制、联调和展示提供了起点。';
+      profile.gap='当前明确在补 C 语言与嵌入式基础；电路调试、器件选型、实时程序、焊接/仪器操作等是否熟练，现有资料无法确认。';
+      profile.action='先做一个传感器采集→单片机/开发板处理→可视化展示的闭环小样机；记录接线图、测试数据和故障复盘，再对照该赛道任务书补短板。';
+    }else if(/程序设计|软件|计算机|算法|人工智能|信息安全|网络安全|编程|服务外包|软件开发|数字媒体科技/.test(text)){
+      profile.base='你熟练使用 Python，独立开发并部署过工具和小游戏；这说明你具备把需求拆成可运行功能、完成迭代和交付的经验。';
+      profile.gap='若赛项考算法，需要补数据结构、复杂度和限时训练；若是团队作品赛，需要补赛题要求的语言/平台、测试、文档和协作。C 语言目前仍在入门。';
+      profile.action='先完成最近届一套真题或一项官方任务：算法赛限时做 3 题并复盘错题；作品赛搭一个可运行原型并写清功能、测试结果和贡献分工。';
+    }else if(/创业|创新|创意|挑战杯|商业|企业|金融|会计|税收|品牌|物流|电商|沙盘|模拟|经管|贸易|营销|职业规划/.test(text)){
+      profile.base='你做过可上线的数字产品，能把想法做成演示原型；大数据项目和结构化文档经验也能支撑调研、分析与路演材料。';
+      profile.gap='项目已经能运行，不代表需求、用户规模、成本和商业模式已验证；商业类竞赛还需要市场证据、财务逻辑、团队分工与现场表达。';
+      profile.action='围绕一个具体用户问题访谈至少 5 位目标用户，整理需求证据、竞品、成本与验证结果；再按该赛项模板做 5 页以内路演稿或案例报告。';
+    }else if(/设计|广告|艺术|传媒|文创|视觉|文学|写作|短视频|摄影|花园|服装/.test(text)){
+      profile.base='你能独立完成数字产品并维护线上作品，具备持续迭代和按要求交付的习惯；这有助于把创意做成可提交作品。';
+      profile.gap='目前资料没有证明你有该视觉/艺术门类的作品集或专业设计软件经验；评审通常会看主题契合、表达质量、制作完成度和格式规范。';
+      profile.action='先从往届获奖作品里选 3 件拆解主题、构图/叙事和提交规范，制作一件对应赛道的小样并请老师或同学按评分表盲评。';
+    }else if(/职业技能|技能大赛|世赛|技能竞赛/.test(text)){
+      profile.base='你有电子与信息方向职业技能竞赛的实战经验，且做过软件项目交付；限时执行、团队协作和过程复盘能迁移到技能赛。';
+      profile.gap='该赛事的工种、设备、操作规范和考核模块需要逐项对照；现有技能成绩不能直接推算到另一工种或新赛制。';
+      profile.action='下载最近届技术文件，把考核项目拆成操作清单；先在校内确认同类设备/训练场地，再按官方任务做一次限时模拟并记录失分点。';
+    }else{
+      profile.base=`你已有软件项目开发与交付经验，物联网工程和数据处理能力可迁移到“${event.name}”中的信息整理、工具使用或成果展示环节。`;
+      profile.gap='该项目当前只有名单分类和方向标签，具体赛项规则、评分点及你是否具备专项训练经历尚未核实；因此不把适配标签当作已证明的竞争力。';
+      profile.action='先查赛事官方最近届通知和获奖样例，列出参赛资格、评分项、交付物三项清单；完成一份小样后再决定是否组队报名。';
+    }
+    if(event.id==='event-007'||event.id==='event-049'||event.id==='event-065'){
+      profile.base='你熟练使用 Python 并独立开发过多款小游戏，具备把规则转成程序逻辑的经历；这是算法训练的起点。';
+      profile.gap='ICPC、蓝桥杯等限时编程主要考数据结构、算法和边界处理，已有应用开发经验不能替代竞赛题训练；你目前 C 语言仍在入门。';
+      profile.action='做一套最近届真题，按“读题—算法—复杂度—边界测试”复盘；ICPC 另需找两名稳定队友，每周至少一次三人限时训练。';
+    }
+    return profile;
+  }
   function detailHtml(event,regionEntry=null){
     const d=event.detail;const isRegion=Boolean(regionEntry);const displayName=regionEntry?.name||event.name;const displayCategory=regionEntry?.category||event.category;const displayStatus=isRegion?'右栏赛区条目 · 赛区细则待核验':d.status;
+    const assessment=personalAssessment(event);
     const references=event.sources.map(s=>`<a class="source-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>${esc(s.label)}</span><span><small>${esc(s.kind)}</small> <b class="source-arrow">↗</b></span></a>`).join('');
     const stages=isRegion?`<span class="detail-tags">所属主表项目：${esc(event.name)}</span><span class="detail-tags">右栏分类：${esc(regionEntry.category)}</span>`:event.regionEntries.map(r=>`<span class="detail-tags">${esc(r.category)} · ${esc(r.name)}</span>`).join('');
     const regionalNotice=isRegion?`<div class="data-warning">此名称和分类来自名单右栏。当前没有单独核实该赛区赛项的规则；以下比什么、要求、作品、日程和个人估算均沿用关联主项目“${esc(event.name)}”作参考，不能视为赛区官方细则。</div>`:'';
@@ -115,7 +168,7 @@
           <div class="info-cell"><label>WHEN / 时间参考</label><p>${field(esc(d.when))}</p></div><div class="info-cell"><label>WHERE / 地点参考</label><p>${field(esc(d.where))}</p></div>
         </div>${stages?`<div style="margin-top:14px"><div class="info-cell"><label>${isRegion?'LIST / 右栏独立赛项':'SHANGHAI / 名单内上海赛区条目'}</label><div class="tagline">${stages}</div></div></div>`:''}</section>
         ${scheduleDetail(event,regionEntry)}
-        <section class="detail-card"><h2><span>03</span>针对你的适配判断</h2>${isRegion?`<div class="data-warning">本项适配和成长判断沿用关联主项目估算；赛区具体赛题、参赛范围与竞争规模尚未独立核实。</div>`:''}<p class="body-copy" style="margin-top:10px">${esc(d.rationale)}</p><div class="conduct-strip" style="margin-top:14px"><strong>操行评定参考：</strong>你提供的评定表中，国家级/省市级竞赛获奖一、二、三等奖分别对应 6、5、4 分，优胜/优秀等奖项为 2 分；是否适用取决于获奖级别、材料和当学期审核口径。</div></section>
+        <section class="detail-card"><h2><span>03</span>针对你的适配判断</h2>${isRegion?`<div class="data-warning">本项适配和成长判断沿用关联主项目估算；赛区具体赛题、参赛范围与竞争规模尚未独立核实。</div>`:''}<div class="fit-assessment-grid"><article><strong>你的现有基础</strong><p>${esc(assessment.base)}</p></article><article><strong>当前具体缺口</strong><p>${esc(assessment.gap)}</p></article><article><strong>建议先做这一步</strong><p>${esc(assessment.action)}</p></article></div><div class="assessment-note"><strong>获奖区间的依据：</strong>${esc(d.rationale)} 适配判断基于你提供的专业、技能与项目经历；赛项标签或名称未能证明的能力会标为待确认。成长收益 ${d.growth}/5 指备赛过程可练到的技能；个人潜力 ${d.potential}/5 指当前基础经持续准备后的发展空间，不代表天赋或保证获奖。</div><div class="conduct-strip" style="margin-top:14px"><strong>操行评定参考：</strong>评定表中，竞赛获奖一、二、三等奖对应 4、3、2 分；国家级/省市级获奖一、二、三等奖对应 6、5、4 分，优胜/优秀等奖项为 2 分。是否适用取决于获奖级别、材料和当学期审核口径。</div></section>
         <section class="detail-card"><h2><span>04</span>来源与核验状态</h2><div class="data-warning">${isRegion?`名单右栏名称与分类已录入；该赛区赛项的官方报名要求、作品提交和地点待逐项核实。下方来源主要用于关联主项目参考。`:(d.status==='待逐项核验'?'当前尚未从该赛事官方章程确认具体赛制、报名条件和本届日程。下方提供赛事官网/官方通知检索入口；核实后再据此安排报名。':`赛事摘要状态：${esc(d.status)}。2026 年未发布的信息仍以赛事和学校当届通知为准。`)}</div><div class="source-list" style="margin-top:12px">${references}</div></section>
       </div><aside class="detail-side">
         <section class="detail-card match-card"><div class="match-top"><div><div class="match-title">PERSONAL FIT / ${isRegion?'赛区适配参考':'适配画像'}</div><div class="match-level">${fitText(event.fit)}</div></div><span class="match-label">物联网工程 · 2026级</span></div>${progress('成长收益',d.growth)}${progress('个人潜力',d.potential)}<p class="body-copy" style="margin-top:14px">${event.tags.map(t=>`<span class="detail-tags">${esc(t)}</span>`).join(' ')}</p></section>
