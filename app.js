@@ -47,7 +47,8 @@
     <div class="stat"><strong>${events.length}</strong><span>主表项目</span></div>
     <div class="stat"><strong>${events.filter(e=>e.fit==='high').length}</strong><span>优先适配方向</span></div>`;
   const pendingVerification=events.filter(e=>e.detail.status==='待逐项核验').length;
-  document.getElementById('coverage-note').innerHTML=`<strong>资料核验进度</strong><span>${events.length-pendingVerification} 项有专项赛事资料 · ${pendingVerification} 项仍需逐项核对官方章程</span><small>待核验项目仅提供方向性筛查，不将赛制、时间、地点或提交物推测为事实。</small>`;
+  const scheduleCoverage=new Set((window.COMPETITION_ANNUAL_PATTERNS||[]).map(item=>item.eventId)).size;
+  document.getElementById('coverage-note').innerHTML=`<strong>资料核验进度</strong><span>${scheduleCoverage} 项有赛程依据或参考窗口 · 其中 ${events.length-pendingVerification} 项有扩展赛事资料</span><small>有赛程依据不代表整份章程已核完；赛制、报名资格、提交物及地点仍按详情来源逐项标注，年度推算不是已发布通知。</small>`;
   tags.forEach(tag => {
     const button = document.createElement('button');
     button.type='button'; button.className='chip'; button.textContent=tag; button.dataset.tag=tag;
